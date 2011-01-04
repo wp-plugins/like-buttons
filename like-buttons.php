@@ -3,7 +3,7 @@
 Plugin Name: Like Buttons
 Description: Adds Open Graph tags to your posts/pages/etc, adds a Facebook Like button to posts using simple Theme functions. Requires a Facebook Application ID (instructions are provided)
 Author: Scott Taylor
-Version: 0.1
+Version: 0.2
 Author URI: http://tsunamiorigami.com
 */
 

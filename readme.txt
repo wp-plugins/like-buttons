@@ -3,7 +3,7 @@ Contributors: wonderboymusic
 Tags: Facebook, social, like, share, post
 Requires at least: 3.0
 Tested up to: 3.0.4
-Stable tag: 0.1
+Stable tag: 0.2
 
 Adds Open Graph <code><meta></code> tags to your posts/pages/etc, adds a Facebook Like button to posts using simple Theme functions. Requires a Facebook Application ID (instructions are provided)
 
@@ -21,6 +21,8 @@ the_blog_like_button()
 // use this if you don't want to register your app
 the_like_iframe()
 </code>
+
+Read More: http://scottctaylor.wordpress.com/2011/01/04/new-plugin-like-buttons/
 
 == Installation ==
 For Like Buttons to work properly, you need to register your site as a Facebook app <a href="http://www.facebook.com/developers/createapp.php" target="_blank">here</a>. Once you enter your Application Name and complete the security Captcha, select the Website tab on the left to obtain your Application ID and set Site URL to your site's root URL.

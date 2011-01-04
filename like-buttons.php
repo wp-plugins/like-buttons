@@ -3,7 +3,7 @@
 Plugin Name: Like Buttons
 Description: Adds Open Graph tags to your posts/pages/etc, adds a Facebook Like button to posts using simple Theme functions. Requires a Facebook Application ID (instructions are provided)
 Author: Scott Taylor
-Version: 0.1
+Version: 0.2
 Author URI: http://tsunamiorigami.com
 */
 
@@ -13,6 +13,7 @@ Author URI: http://tsunamiorigami.com
  *
  */
 define('FACEBOOK_APP_ID', 0);
+define('FACEBOOK_ADMINS', 0);
 
 function the_like_image() {
 	global $post;
@@ -41,6 +42,10 @@ function add_open_graph_atts($value) {
 	$append[] = $value;
 	if (!preg_match('/xmlns=/', $value)) {
 		$append[] = 'xmlns="http://www.w3.org/1999/xhtml"';
+	}
+	
+	if (!preg_match('/xmlns:og=/', $value)) {
+		$append[] = 'xmlns:og="http://ogp.me/ns#"';	
 	}
 	
 	if (!preg_match('/xmlns:fb=/', $value)) {
@@ -73,6 +78,12 @@ if (is_single()):
 <meta property="og:url" content="<?= esc_attr(home_url()) ?>" />
 <meta property="og:site_name" content="<?= esc_attr(get_bloginfo('name')) ?>" />
 <meta property="og:description" content="<?= esc_attr(trim(get_bloginfo('description'))) ?>" />
+<?php endif; ?>
+<?php if ((int) FACEBOOK_ADMINS > 0): ?>
+<meta property="fb:admins" content="<?= esc_attr(trim(FACEBOOK_ADMINS)) ?>" />
+<?php endif; ?>
+<?php if ((int) FACEBOOK_APP_ID > 0): ?>
+<meta property="fb:app_id" content="<?= esc_attr(trim(FACEBOOK_APP_ID)) ?>" />
 <?php endif; ?>
 <script type="text/javascript">var FACEBOOK_APP_ID = <?= FACEBOOK_APP_ID ?>;</script>
 <script type="text/javascript" src="<?= plugin_dir_url('') . 'like-buttons/like-buttons.js' ?>"></script>

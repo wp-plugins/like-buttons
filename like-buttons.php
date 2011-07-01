@@ -3,7 +3,7 @@
 Plugin Name: Like Buttons
 Description: Adds Open Graph tags to your posts/pages/etc, adds a Facebook Like button to posts using simple Theme functions. Requires a Facebook Application ID (instructions are provided)
 Author: Scott Taylor
-Version: 0.3
+Version: 0.3.2
 Author URI: http://tsunamiorigami.com
 */
 
@@ -16,24 +16,13 @@ define('FACEBOOK_APP_ID', 0);
 define('FACEBOOK_ADMINS', 0);
 
 function the_like_image() {
-	global $post;
-	$id = (int) $post->ID;
-
-	if ($id > 0) {
-		$image = get_posts(array(	
-			'order' => 'ASC',
-			'orderby' => 'menu_order',
-			'post_parent' => $id,
-			'post_type'   => 'attachment',
-			'post_mime_type' => 'image',
-			'post_status' => 'inherit',
-			'numberposts' => 1
-		));	
-		
-		if (is_array($image) && count($image)) { ?>
-<meta property="og:image" content="<?= esc_attr($image[0]->guid) ?>" />
-<?php	
-		}
+    if ( isset( $GLOBALS['post'] ) && $GLOBALS['post']->ID ) {
+        $id = (int) $GLOBALS['post']->ID;
+        $thumb_id = get_post_thumbnail_id( $id );
+        $image = wp_get_attachment_image_src( $thumb_id );
+?>
+<meta property="og:image" content="<?php echo $image[0] ?>" />
+<?php	        	
 	}	
 }
 
@@ -65,28 +54,28 @@ if (is_single()):
 	
 	$content = str_replace(array("\r\n", "\r", "\n", "\t"), '', $content);
 ?>
-<meta property="og:title" content="<?= esc_attr(apply_filters('the_title', $post->post_title)) ?>" />
+<meta property="og:title" content="<?php echo esc_attr(apply_filters('the_title', $post->post_title)) ?>" />
 <meta property="og:type" content="article" />
 <?php the_like_image() ?>
-<meta property="og:url" content="<?= esc_attr(apply_filters('the_permalink', $post->guid)) ?>" />
-<meta property="og:site_name" content="<?= esc_attr(get_bloginfo('name')) ?>" />
-<meta property="og:description" content="<?= esc_attr(trim($content)) ?>" />
+<meta property="og:url" content="<?php echo esc_attr( get_permalink( $post->ID ) ) ?>" />
+<meta property="og:site_name" content="<?php echo esc_attr(get_bloginfo('name')) ?>" />
+<meta property="og:description" content="<?php echo esc_attr(trim($content)) ?>" />
 <?php else: ?>
-<meta property="og:title" content="<?= esc_attr(get_bloginfo('name')) ?>" />
+<meta property="og:title" content="<?php echo esc_attr(get_bloginfo('name')) ?>" />
 <meta property="og:type" content="website" />
 <?php the_like_image() ?>
-<meta property="og:url" content="<?= esc_attr(home_url()) ?>" />
-<meta property="og:site_name" content="<?= esc_attr(get_bloginfo('name')) ?>" />
-<meta property="og:description" content="<?= esc_attr(trim(get_bloginfo('description'))) ?>" />
+<meta property="og:url" content="<?php echo esc_attr(home_url()) ?>" />
+<meta property="og:site_name" content="<?php echo esc_attr(get_bloginfo('name')) ?>" />
+<meta property="og:description" content="<?php echo esc_attr(trim(get_bloginfo('description'))) ?>" />
 <?php endif; ?>
 <?php if ((int) FACEBOOK_ADMINS > 0): ?>
-<meta property="fb:admins" content="<?= esc_attr(trim(FACEBOOK_ADMINS)) ?>" />
+<meta property="fb:admins" content="<?php echo esc_attr(trim(FACEBOOK_ADMINS)) ?>" />
 <?php endif; ?>
 <?php if ((int) FACEBOOK_APP_ID > 0): ?>
-<meta property="fb:app_id" content="<?= esc_attr(trim(FACEBOOK_APP_ID)) ?>" />
+<meta property="fb:app_id" content="<?php echo esc_attr(trim(FACEBOOK_APP_ID)) ?>" />
 <?php endif; ?>
 <script type="text/javascript">var FACEBOOK_APP_ID = <?= FACEBOOK_APP_ID ?>;</script>
-<script type="text/javascript" src="<?= plugin_dir_url('') . 'like-buttons/like-buttons.js' ?>"></script>
+<script type="text/javascript" src="<?php echo plugin_dir_url('') . 'like-buttons/like-buttons.js' ?>"></script>
 <?php
 }
 add_action('wp_head', 'the_open_graph_meta_tags');

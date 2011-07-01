@@ -2,7 +2,7 @@
 Contributors: wonderboymusic
 Tags: Facebook, social, like, share, post
 Requires at least: 3.0
-Tested up to: 3.0.4
+Tested up to: 3.2
 Stable tag: 0.3.1
 
 Adds Open Graph <code><meta></code> tags to your posts/pages/etc, adds a Facebook Like button to posts using simple Theme functions. Requires a Facebook Application ID (instructions are provided)
